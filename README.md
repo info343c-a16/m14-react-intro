@@ -1,12 +1,24 @@
 # Module 14: Introduction to React
 
 ## Overview
-React is _a JavaScript library for building user interfaces_. Using the React library will enable you to create reusable components that you can combine into robust web applications. We'll continue the pursuit of using **data** to drive web application by using a structure in which we pass different data to components we create.
+React is _a JavaScript library for building user interfaces_. Using the React library will enable you to create reusable components that you can combine into robust web applications. We'll continue the pursuit of using **data** to drive web applications by using a structure in which we pass different _data_ to _components_ we create.
 
 Because React is such a popular and configurable library, people use it in complex ways in conjunction with a variety of different tools to manage complex applications. We'll introduce a number of these tools as the course moves forward, but we'll start as simple as possible -- just be aware that some of the examples you find online (even [Facebook's React Tutorial](https://facebook.github.io/react/tutorial/tutorial.html)) may leverage additional tools to "simplify" the process.
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents**
+
+- [Resources](#resources)
+- [Modern JavaScript](#modern-javascript)
+  - [Arrow Functions](#arrow-functions)
+  - [Babel](#babel)
+- [React Set up](#react-set-up)
+- [Creating Components](#creating-components)
+- [Passing Props](#passing-props)
+- [Nesting Components](#nesting-components)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Resources
 
@@ -57,8 +69,6 @@ Later on, we'll learn how to compile our JavaScript as part of the process of bu
 <!-- In your index.html file -->
 <!-- Load Babel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.14.0/babel.min.js"></script>
-
-<!-- Load Babel -->
 
 ```
 In addition to compiling our ES6 JavaScript o ES5, it will also allow us to start writing in JSX....
@@ -112,16 +122,16 @@ var render = function() {
 };
 ```
 
-In the above code section, we begin to mix HTML in directly with our JavaScript. The `return` statement above is returning a single HTML node (i.e., one root element, which may have as many children as you like). The curly braces syntax `{text}` allows us to **reference JavaScript variables** inside of our HTML node. Much cleaner with jQuery!
+In the above code section, we begin to mix HTML in directly with our JavaScript. The `return` statement above is returning a single HTML node (i.e., one root element, which may have as many children as you like). The curly braces syntax `{text}` allows us to **reference JavaScript variables** inside of our HTML node. Much cleaner than jQuery!
 
-In order to specify that babel should compile your JSX code to JavaScript, make sure to include `type=text/jsx` in your script tag referencing your `.jsx` file!
+In order to specify that babel should compile your JSX code to JavaScript, **make sure to include** `type=text/jsx` in your script tag referencing your `.jsx` file!
 
 ```html
 <!-- Load jsx file, make sure to specify type -->
 <script type="text/jsx" src="main.jsx"></script>
 ```
 
-## React Set up
+## React Set-up
 In order to start using React, we'll actually need to read in _two_ script tags: one to use React, and a separate one specifically designed for DOM manipulation (ReactDOM):
 
 ```html
@@ -132,13 +142,13 @@ In order to start using React, we'll actually need to read in _two_ script tags:
 Also, for reasons that will become clear, it will be helpful to install [this chrome extension](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to help view the components you create.
 
 ## Creating Components
-Wouldn't it be great if we could create _our own HTML elements_? For example, if we were able to define a `<Tweet>` element for a Twitter application? That's what React will enable us to do. Once we create components, we'll be able to refer to them as if they were regular HTML elements (and pass _properties_ to those elements):
+Wouldn't it be great if we could create _our own HTML elements_? For example, what if we were able to define a `<Tweet>` element for a Twitter application? That's what React will enable us to do. Once we create components, we'll be able to refer to them as if they were regular HTML elements (and pass _properties_ to those elements):
 
 ```html
 <!-- Show a Twitter component -->
 <Tweet text="Some text for the tweet" user="Username" />
 ```
-To create a component, we'll use the `React.createComponent` method. This will create a new component for us to show to our user. This method expects an _object_ as a parameter. In that object, you can specify _methods_ for your new component, such as how to render it:
+To create a component, we'll use the `React.createComponent` method. This will create a new class of component for us to show to our user. This method expects an _object_ as a parameter. In that object, you can specify _methods_ for your new component, such as how to render it:
 
 ```javascript
 var MyComponent = React.createComponent({
@@ -163,7 +173,7 @@ Once we have defined a component, we can use the `ReactDOM` library to render it
 // Render MyComponent in the body
 ReactDOM.render(<MyComponent/>, document.querySelector('body'));
 ```
-The `ReactDOM.render` method takes two parameters: the `component` that you want to render (`<MyComponent/>`), and where you want to render it (the `body`). For some practice creating a simple element, see [exercise-1](exercise-1). Note, we have to
+The `ReactDOM.render` method takes two parameters: the `component` that you want to render (`<MyComponent/>`), and where you want to render it (the `body`). For some practice creating a simple element, see [exercise-1](exercise-1).
 
 
 ## Passing Props
@@ -191,11 +201,11 @@ var MyComponent = React.createComponent({
     }
 });
 ```
-To practice passing simple information via props, see exercise 2.
+To practice passing simple information via props, see [exercise 2](exercise-2).
 
 
 ## Nesting Components
-Once we've created components, we can render them inside of other components, just like regular HTML elements! Let's imagine that we want to create a list (pretty simple, right?). For each list item (`<li>`) that we want to create, we could render a React component (`ListItem`). We could do that inside of a parent component (let's call it `List`).
+Once we've created components, we can render them inside of other components, just like regular HTML elements! Let's imagine that we want to create a list (pretty simple, right?). For each list item (`<li>`) that we want to create, we could render a React component (`ListItem`). 
 
 Let's start by creating a ListItem component:
 ```javascript
