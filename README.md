@@ -13,10 +13,12 @@ Because React is such a popular and configurable library, people use it in compl
 - [Modern JavaScript](#modern-javascript)
   - [Arrow Functions](#arrow-functions)
   - [Babel](#babel)
-- [React Set up](#react-set-up)
+- [React Set-up](#react-set-up)
 - [Creating Components](#creating-components)
 - [Passing Props](#passing-props)
 - [Nesting Components](#nesting-components)
+- [Component State](#component-state)
+- [Events](#events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
