@@ -50,23 +50,16 @@ var EmployeeSearch = React.createClass({
     getInitialState:function() {
         return({searchString:''});
     },
-    filter:function(e) {
-        console.log(e.target.value);
-        this.setState({searchString:e.target.value})
-    },
-    render:function() {
-        var employees = this.props.data,
-           searchString = this.state.searchString.trim().toLowerCase();
+    // Add a filter funciton
 
-        if(searchString.length > 0){
-           // We are searching. Filter the results.
-           employees = employees.filter(function(employee){
-               return employee.name.toLowerCase().match( searchString );
-           });
-        }
+    render:function() {
+        var employees = this.props.data;
+
+        // Use this.state.searchString to filter down the `employees` array
+
         return(
             <div>
-                <input onChange={this.filter} placeholder="Search employees"/>
+                <input placeholder="Search employees"/>
                 <EmployeeTable data={employees}/>
             </div>
         )
