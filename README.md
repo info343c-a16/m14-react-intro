@@ -28,6 +28,8 @@ Because React is such a popular and configurable library, people use it in compl
 - [React Documentation](https://facebook.github.io/react/docs/hello-world.html)
 - [JSX Documentation](https://facebook.github.io/react/docs/introducing-jsx.html)
 - [React if you know jQuery](http://reactfordesigners.com/labs/reactjs-introduction-for-people-who-know-just-enough-jquery-to-get-by/)
+- [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html)
+- [React Component Lifecycle](https://facebook.github.io/react/docs/react-component.html)
 
 **Tools**
 - [Babel JavaScript Compiler](https://babeljs.io/)
@@ -148,10 +150,10 @@ Wouldn't it be great if we could create _our own HTML elements_? For example, wh
 <!-- Show a Twitter component -->
 <Tweet text="Some text for the tweet" user="Username" />
 ```
-To create a component, we'll use the `React.createComponent` method. This will create a new class of component for us to show to our user. This method expects an _object_ as a parameter. In that object, you can specify _methods_ for your new component, such as how to render it:
+To create a component, we'll use the `React.createClass` method. This will create a new class of component with **default React Behaviors** that we can use throughout our application. This method expects an _object_ as a parameter. In that object, you can specify _methods_ for your new component, such as how to render it:
 
 ```javascript
-var MyComponent = React.createComponent({
+var MyComponent = React.createClass({
     // A function to render your component -- should return HTML
     render:function() {
         // Write some js
@@ -188,7 +190,7 @@ ReactDOM.render(<MyComponent p1="paragraph 1" p2="paragraph 2"/>,
 The values passed to a component are accessible within the component as `this.props`. This will allow us to dynamically show information that is passed to the component:
 
 ```javascript
-var MyComponent = React.createComponent({
+var MyComponent = React.createClass({
     // A function to render your component -- should return HTML
     render:function() {
         // Write some js        
@@ -201,11 +203,16 @@ var MyComponent = React.createComponent({
     }
 });
 ```
+
+The components that you create have **lifecycle** methods that help keep the DOM up to date as your data changes. For an overview of these methods, you can see the [documentation](https://facebook.github.io/react/docs/react-component.html). For now, it's important to note that a number of functions are invoked **by default** when you change your `props` or your `state` (more on this below). **When your `props` change, your `render` method will be called** (as will a number of other functions to allow you to control the flow of information).
+
 To practice passing simple information via props, see [exercise 2](exercise-2).
 
 
 ## Nesting Components
-Once we've created components, we can render them inside of other components, just like regular HTML elements! Let's imagine that we want to create a list (pretty simple, right?). For each list item (`<li>`) that we want to create, we could render a React component (`ListItem`). 
+Once we've created components, we can render them inside of other components, just like regular HTML elements! This is a core idea to React, as it uses a **one-directional data flow** where _parent_ components pass data to child components.
+
+Let's imagine that we want to create a list (pretty simple, right?). For each list item (`<li>`) that we want to create, we could render a React component (`ListItem`).
 
 Let's start by creating a ListItem component:
 ```javascript
@@ -253,3 +260,82 @@ ReactDOM.render(<List items={items}/>,
 );
 ```
 To see how this example works, you can view [demo-1](demo-1), or practice in [exercise-3](exercise-3).
+
+## Component State
+So far, we've been discussing how components can receive _properties_ to determine their visual rendering. It's put nicely in [this write-up](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md):
+
+>_props_ (short for properties) are a Component's configuration, its options if you may. They are received from above and immutable as far as the Component receiving them is concerned.
+>A Component **cannot change its props**, but it is responsible for putting together the props of its child Components.
+
+So, we use **props** to pass data into components which render that data. However, if we want to begin building dynamic applications, we'll need to use **component state** to track change in the _state_ of the application (usually driven by a user).
+
+A really nice overview of the difference between props and state is in [this article](https://facebook.github.io/react/docs/thinking-in-react.html), which points out a few key ideas:
+
+- "State is reserved only for interactivity, that is, data that changes over time"
+- Keep your state _as minimal as possible_, and compute information from that state
+
+So, for example, if you wanted to have a _searchable list_, that component would recieve the list items as an array which would not change -- this means that it is part of **props**. However, the search string will change, so we can store the search string in **state**, and _compute the filtered list_ in our `render()` function. We can begin by setting an initial state, as the `getInitialState` is fired when the Component is initialized:
+
+```javascript
+// Component for searching a table
+var SearchableTable = React.createClass({
+    // Set an initial state: it will then be accessible as this.state.NAME
+    getInitialState:function() {
+        return({searchString:''}); // Initial state of searchString as '';
+    },
+    render:function {
+        // Use searchstring to filter data
+
+        ...
+
+        // Render a table in here
+        return(...dom elements ...);
+        ...
+    }
+});
+```
+If we were building a searchable table, the only thing that changes, and therefore the **only data we need to store in state**, is the search string -- we can then filter down our data in the `render` function.
+
+## Events
+Event handlers are assigned in React in the same way that you would assign them to an HTML element using the event name of your choice. Inside of a `.jsx` file, we could leverage the curly braces `{}` inside an HTML section to reference a JavaScript function.
+
+```html
+<input onChange={functionName} />
+```
+
+What we need to figure out is _what to do in that function_. Rather than trying to update elements ourselves, we can simply **update the state**, and let React take care of the rest. When we change state or props, React will re-render our components. Continuing with our example of a searchable table, we could define a function _as part of our component_ that _changes it's state_, and then our UI will be re-rendered:
+
+
+```javascript
+// Component for searching a table
+var SearchableTable = React.createClass({
+    // Set an initial state: it will then be accessible as this.state.NAME
+    getInitialState:function() {
+        return({searchString:''}); // Initial state of searchString as '';
+    },
+    // Define a `filter` function to be executed when the input element changes
+    filter:function(event) {
+        // Get event value
+        var value = event.target.value;
+
+        // Change state
+        this.setState({searchString:value});
+    }
+    render:function {
+        // Use searchstring to filter data
+
+        ...
+
+        // Render a table in here
+        return(
+            <input onChange={this.filter} />
+            ...dom elements...
+        );
+        ...
+    }
+});
+
+```
+In the above section, the `filter` function (which we define -- this **is not** a default React function) will be executed when the `<input>` element changes value. The `filter` function then set's the state using `this.setState({key:value})`. Note **do not** try setting the state directly (i.e., `this.state.searchString = 'something'`). By setting the state, you will **trigger an update**, and React will re-render your DOM.
+
+To practice working with state, see [exercise-4](exercise-4).
