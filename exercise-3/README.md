@@ -6,5 +6,3 @@ In this exercise, you'll practice passing props to a child component from a pare
 - Fill in the `EmployeeTable` render function (already started) to _iterate through the EmployeeTable data_ that is received via props, and **create an `EmployeeRow`** component for each element in your array. Make sure to pass in the necesary data in the props!
 
 - Use `ReactDOM` to render an `EmployeeTable` element, making sure to pass in the appropriate props.
-
-As described in [module-4](https://github.com/info343c-a16/m4-git-intro), start by forking and cloning this repository. Then, DO STUFF
