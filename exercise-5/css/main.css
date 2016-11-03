@@ -1,0 +1,8 @@
+/* Assign styles here */
+.complete {
+    text-decoration:line-through;
+}
+
+.card .card-content {
+    height:65px;
+}
