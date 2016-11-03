@@ -16,15 +16,15 @@ var MovieControls = React.createClass({
             <div>
                 <h5>Sort By:</h5>
                 <p>
-                    <input onClick={this.props.clickEvent} name="group1" type="radio" id="popularity" defaultChecked/>
+                    <input name="group1" type="radio" id="popularity" defaultChecked/>
                     <label htmlFor="popularity">Popularity</label>
                 </p>
                 <p>
-                    <input onClick={this.props.clickEvent} name="group1" type="radio" id="vote_count" />
+                    <input name="group1" type="radio" id="vote_count" />
                     <label htmlFor="vote_count">Vote Count</label>
                 </p>
                 <p>
-                    <input onClick={this.props.clickEvent} name="group1" type="radio" id="vote_average"  />
+                    <input name="group1" type="radio" id="vote_average"  />
                     <label htmlFor="vote_average">Vote Average</label>
                 </p>
             </div>
@@ -42,10 +42,10 @@ var MovieItem = React.createClass({
                 <div className="col s3">
                     <div className="card">
                         <div className="card-image">
-                            <img src={imageUrl + this.props.data.poster_path + '?' + apiKey} />
+                            <img alt="set photo src" src="" />
                         </div>
                         <div className="card-content">
-                            <p>{this.props.data.title}</p>
+                            <p>PUT THE TITLE HERE</p>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ var MovieItem = React.createClass({
 var MovieApp = React.createClass({
     // Set initlal state: empty array for movies, order:'popularity'
     getInitialState:function() {
-        return {movies:[], order:'popularity'}
+        return null;
     },
 
     // Function to get movies from the API
@@ -79,28 +79,22 @@ var MovieApp = React.createClass({
 
     // Function to set the "order" of state
     setOrder:function(element) {
-        this.setState({order:element.target.id})
+
     },
 
     // When the component mounts, get the movies from the API
     componentDidMount:function() {
-        this.getMovies();
+
     },
 
     // Render function
     render:function() {
         // Sort your movies
-        let sortedMovies = this.sortMovies(this.state.movies, this.state.order)
 
-        // Return a MovieItem for each element in your sorted array
+
+        // Return a MovieItem for each element in your sorted array, and a MovieControls element
         return(
             <div className="container">
-                <MovieControls clickEvent={this.setOrder}/>
-                <div className="row">
-                    {sortedMovies.map(function(d, i){
-                        return <MovieItem key={'movie' + i} data={d} />
-                    })}
-                </div>
             </div>
         );
     }
