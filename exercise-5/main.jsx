@@ -1,11 +1,11 @@
 // Main.jsx file
 
-// API Key: please get your own if you want to continue using the API
+// API Key: please get your own if you want to continue using the API after class
 // Create an account at https://www.themoviedb.org, then request an api key
 const apiKey = 'api_key=00d4ef959a8900e90ba9053403bb537e';
 const baseUrl = 'https://api.themoviedb.org/3/discover/movie?';
 
-// More info at https://developers.themoviedb.org/3/getting-started/images
+// Set image size, url (more info at https://developers.themoviedb.org/3/getting-started/images)
 const imageSize = 'w300'
 const imageUrl = 'https://image.tmdb.org/t/p/' + imageSize
 
@@ -32,10 +32,12 @@ var MovieControls = React.createClass({
         )
     }
 })
-// Simple ListItem component for showing an <li>
+
+// MovieItem element for showing a movie card
 var MovieItem = React.createClass({
     render:function() {
-        console.log(this.props.data)
+        // Return image card
+        // Taken from: http://materializecss.com/cards.html
         return(
                 <div className="col s3">
                     <div className="card">
@@ -51,11 +53,14 @@ var MovieItem = React.createClass({
     }
 });
 
-// Movie List
-var MovieList = React.createClass({
+// Movie App
+var MovieApp = React.createClass({
+    // Set initlal state: empty array for movies, order:'popularity'
     getInitialState:function() {
         return {movies:[], order:'popularity'}
     },
+
+    // Function to get movies from the API
     getMovies:function() {
         // Searh most popular movies
         // See: https://www.themoviedb.org/documentation/api/discover
@@ -64,26 +69,30 @@ var MovieList = React.createClass({
             this.setState({movies: data.results});
         }.bind(this)) // bind component to "this" to use inside callback
     },
+
+    // Function to sort an array by an object key
     sortMovies:function(movies, order) {
-        console.log('order ', order)
         return movies.sort(function(a,b){
             return a[order] - b[order]
         })
     },
+
+    // Function to set the "order" of state
     setOrder:function(element) {
-        console.log(element.target.id)
         this.setState({order:element.target.id})
     },
-    filterMovies:function(movies, filter) {
-        if(filter == 'adult') {
-            return
-        }
-    },
+
+    // When the component mounts, get the movies from the API
     componentDidMount:function() {
         this.getMovies();
     },
+
+    // Render function
     render:function() {
+        // Sort your movies
         let sortedMovies = this.sortMovies(this.state.movies, this.state.order)
+
+        // Return a MovieItem for each element in your sorted array
         return(
             <div className="container">
                 <MovieControls clickEvent={this.setOrder}/>
@@ -98,7 +107,7 @@ var MovieList = React.createClass({
 });
 
 
-// Render your component in the `main` section
-ReactDOM.render(<MovieList />,
+// Render your MovieApp component in the `main` section
+ReactDOM.render(<MovieApp />,
     document.querySelector('main')
 );
